@@ -65,40 +65,32 @@ def ply_to_positions(ply_file):
             b = int(vertex1[5])
 
             # block color
-            if [r, g, b] == [255, 255, 255]:  # white
-                block_data = 0
-            elif [r, g, b] == [255, 127, 0] or [r, g, b] == [255, 165, 0]:  # orange
-                block_data = 1
-            elif [r, g, b] == [255, 0, 255]:  # magenta
-                block_data = 2
-            elif [r, g, b] == [127, 127, 255]:  # lightblue
-                block_data = 3
-            elif [r, g, b] == [255, 255, 0]:  # yellow
-                block_data = 4
-            elif [r, g, b] == [0, 255, 0]:  # lime
-                block_data = 5
-            elif [r, g, b] == [255, 127, 127]:  # pink
-                block_data = 6
-            elif [r, g, b] == [127, 127, 127]:  # gray
-                block_data = 7
-            elif [r, g, b] == [191, 191, 191]:  # lightgray
-                block_data = 8
-            elif [r, g, b] == [0, 255, 255]:  # cyan
-                block_data = 9
-            elif [r, g, b] == [127, 0, 127]:  # purple
-                block_data = 10
-            elif [r, g, b] == [0, 0, 255]:  # blue
-                block_data = 11
-            elif [r, g, b] == [127, 0, 0]:  # brown
-                block_data = 12
-            elif [r, g, b] == [0, 127, 0] or [r, g, b] == [0, 80, 0]:  # green
-                block_data = 13
-            elif [r, g, b] == [255, 0, 0]:  # red
-                block_data = 14
-            elif [r, g, b] == [0, 0, 0]:  # black
-                block_data = 15
-            else:  # default (white)
-                block_data = 0
+            colors = [
+                (255, 255, 255),  # white
+                (255, 127, 0),    # orange
+                (255, 0, 255),    # magenta
+                (127, 127, 255),  # lightblue
+                (255, 255, 0),    # yellow
+                (0, 255, 0),      # lime
+                (255, 127, 127),  # pink
+                (127, 127, 127),  # gray
+                (191, 191, 191),  # lightgray
+                (0, 255, 255),    # cyan
+                (127, 0, 127),    # purple
+                (0, 0, 255),      # blue
+                (127, 0, 0),      # brown
+                (0, 127, 0),      # green
+                (255, 0, 0),      # red
+                (0, 0, 0)         # black
+            ]
+            
+            min_distance = float('inf')
+            block_data = 0
+            for i, color in enumerate(colors):
+                distance = math.sqrt((r - color[0])**2 + (g - color[1])**2 + (b - color[2])**2)
+                if distance < min_distance:
+                    min_distance = distance
+                    block_data = i
 
             # ボックスを置く方向を解析
             if vertex1[0] == vertex2[0] and vertex2[0] == vertex3[0]:  # y-z plane
